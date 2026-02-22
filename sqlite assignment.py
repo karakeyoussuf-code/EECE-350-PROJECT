@@ -1,18 +1,12 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Feb 22 12:51:00 2026
-
-@author: YUSUF K
-"""
-
 import sqlite3
 
-conn = sqlite3.connect("students.db")
-cursor = conn.cursor()
+
+db = sqlite3.connect("students.conn")
+cursor = db.cursor()
 
 
 cursor.execute("""
-CREATE TABLE  student (
+CREATE TABLE IF NOT EXISTS student (
     student_id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     age INTEGER
@@ -20,7 +14,7 @@ CREATE TABLE  student (
 """)
 
 cursor.execute("""
-CREATE TABLE  registered_courses (
+CREATE TABLE IF NOT EXISTS registered_courses (
     student_id INTEGER,
     course_id INTEGER,
     PRIMARY KEY (student_id, course_id),
@@ -29,7 +23,7 @@ CREATE TABLE  registered_courses (
 """)
 
 cursor.execute("""
-CREATE TABLE  grades (
+CREATE TABLE IF NOT EXISTS grades (
     student_id INTEGER,
     course_id INTEGER,
     grade REAL,
@@ -47,7 +41,7 @@ cursor.execute("INSERT INTO grades VALUES (1, 102, 92)")
 cursor.execute("INSERT INTO grades VALUES (2, 101, 78)")
 cursor.execute("INSERT INTO grades VALUES (2, 103, 88)")
 
-conn.commit()
+db.commit()
 
 
 print("Maximum grades:")
@@ -77,4 +71,4 @@ for row in cursor.fetchall():
     print(row)
 
 
-conn.close()
+db.close()
